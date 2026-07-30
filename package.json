@@ -18,7 +18,7 @@
     "typescript"
   ],
   "author": "Mukhammadaziz",
-  "license": "UNLICENSED",
+  "license": "MIT",
   "dependencies": {
     "pino": "^10.3.1",
     "uuid": "^14.0.1"
