@@ -1,5 +1,8 @@
 import type { RequestContext } from './types';
 
+let otelApi: typeof import('@opentelemetry/api') | null = null;
+let isOtelChecked = false;
+
 /**
  * Returns { traceId, spanId } from the currently active OpenTelemetry span,
  * or {} if @opentelemetry/api isn't installed or there's no active span.
@@ -7,13 +10,17 @@ import type { RequestContext } from './types';
  * completely unaffected, and this can never throw.
  */
 export function getTraceContext(): Partial<Pick<RequestContext, 'traceId' | 'spanId'>> {
-  let otelApi: typeof import('@opentelemetry/api');
-  try {
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
-    otelApi = require('@opentelemetry/api');
-  } catch {
-    return {}; 
+  if (!isOtelChecked) {
+    try {
+      // eslint-disable-next-line @typescript-eslint/no-var-requires
+      otelApi = require('@opentelemetry/api');
+    } catch {
+      otelApi = null;
+    }
+    isOtelChecked = true;
   }
+
+  if (!otelApi) return {};
 
   try {
     const span = otelApi.trace.getActiveSpan();

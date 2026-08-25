@@ -40,9 +40,13 @@ export function createLogger(serviceName: string, options: LoggerOptions = {}): 
     },
   });
 
-  function log(level: LogLevel, message: string, fields: LogFields = {}): void {
+  function log(level: LogLevel, message: string, fields?: LogFields): void {
     const context = getContext();
-    base[level]({ ...context, ...fields }, message);
+    if (context || fields) {
+      base[level]({ ...context, ...fields }, message);
+    } else {
+      base[level](message);
+    }
   }
 
   return {
