@@ -1,5 +1,7 @@
 # @alanxdev/logger
 
+[![npm version](https://img.shields.io/npm/v/@alanxdev/logger.svg)](https://www.npmjs.com/package/@alanxdev/logger)
+
 A simple wrapper around Pino that automatically passes request IDs and tracing info through your logs using Node's `async_hooks`.
 
 You don't need to pass a logger instance around your app. Just set up the middleware once, and any log down the chain will automatically include the `requestId`, `traceId`, and `spanId`.
